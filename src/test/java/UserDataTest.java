@@ -11,17 +11,17 @@ public class UserDataTest {
     @Test
     public void test() throws IOException {
         FileReader fr;
-        fr=new FileReader("data/user_data.txt");
-        BufferedReader br=new BufferedReader(fr);
+        fr = new FileReader("data/user_data.txt");
+        BufferedReader br = new BufferedReader(fr);
 
-        int userNum=0;
+        int userNum = 0;
         String str;
         StringTokenizer st;
-        Map<String,String> userData=new HashMap<String, String>();
-        while ((str=br.readLine())!=null){
+        Map<String, String> userData = new HashMap<String, String>();
+        while ((str = br.readLine()) != null) {
             System.out.println(str);
-            st=new StringTokenizer(str,",");
-            userData.put(st.nextToken(),st.nextToken());
+            st = new StringTokenizer(str, ",");
+            userData.put(st.nextToken(), st.nextToken());
             userNum++;
         }
         System.out.println(userNum);

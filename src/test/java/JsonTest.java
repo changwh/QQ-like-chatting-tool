@@ -8,10 +8,10 @@ import java.util.List;
 public class JsonTest {
     @Test
     public void test() throws IOException {
-        List<String> list=new ArrayList<String>();
+        List<String> list = new ArrayList<String>();
         list.add("test");
         list.add("test2");
-        ObjectMapper mapper=new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(list));
     }
 

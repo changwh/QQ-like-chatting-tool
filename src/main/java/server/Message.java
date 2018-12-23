@@ -11,7 +11,7 @@ public class Message {
     /**
      * 消息类型
      */
-    enum MessageType{
+    enum MessageType {
         message_login_succeed,              // 登录成功
         message_login_fail,                 // 登录失败
         message_comm_mes,                   // 普通信息
