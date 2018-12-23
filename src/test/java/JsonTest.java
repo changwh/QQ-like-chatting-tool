@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class jsonTest {
+public class JsonTest {
     @Test
     public void test() throws IOException {
         List<String> list=new ArrayList<String>();

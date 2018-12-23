@@ -9,44 +9,40 @@ import java.net.Socket;
 public class Server {
     ServerSocket ss;
 
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         new Server();
     }
 
-    public Server()
-    {
+    public Server() {
         try {
-            System.out.println("Ë½ÁÄ·şÎñÆ÷ÒÑÔËĞĞ,µÈ´ıÈÎÒâÒ»¸ö¿Í»§¶ËÁ¬½Ó,ÇëÏÈÈ·¶¨groupChat_ServerÊÇ·ñÔËĞĞ¡£");
+            System.out.println("ç§èŠæœåŠ¡å™¨å·²è¿è¡Œ,ç­‰å¾…ä»»æ„ä¸€ä¸ªå®¢æˆ·ç«¯è¿æ¥,è¯·å…ˆç¡®å®šgroupChat_Serveræ˜¯å¦è¿è¡Œã€‚");
 
             ss=new ServerSocket(6666);
 
-            while (true)
-            {
+            while (true) {
                 Socket s=ss.accept();
 
                 ObjectInputStream ois=new ObjectInputStream(s.getInputStream());
                 User user=(User)ois.readObject();
-                System.out.println("·şÎñÆ÷½ÓÊÕµ½ÓÃ»§id:"+user.getUserId()+"  ÃÜÂë:"+user.getPasswd());
+                System.out.println("æœåŠ¡å™¨æ¥æ”¶åˆ°ç”¨æˆ·id:"+user.getUserId()+"  å¯†ç :"+user.getPasswd());
                 Message message=new Message();
 
                 ObjectOutputStream oos=new ObjectOutputStream(s.getOutputStream());
 
-                if(s!=null)
-                {
-                    System.out.println("³É¹¦µÇÂ¼Ö÷Ãæ°å");
+                if(s!=null) {
+                    System.out.println("æˆåŠŸç™»å½•ä¸»é¢æ¿");
 
-                    //·µ»ØÒ»¸ö³É¹¦µÇÂ½µÄĞÅÏ¢±¨
+                    //è¿”å›ä¸€ä¸ªæˆåŠŸç™»é™†çš„ä¿¡æ¯æŠ¥
                     message.setMesType(Message.MessageType.message_login_succeed);
                     oos.writeObject(message);
 
-                    //µ¥¿ªÒ»¸öÏß³Ì£¬ÈÃ¸ÃÏß³ÌÓë¸Ã¿Í»§¶Ë±£³ÖÍ¨Ñ¶.
+                    //å•å¼€ä¸€ä¸ªçº¿ç¨‹ï¼Œè®©è¯¥çº¿ç¨‹ä¸è¯¥å®¢æˆ·ç«¯ä¿æŒé€šè®¯.
                     SerConClientThread scct=new SerConClientThread(s);
                     ManageClientThread.addClientThread(user.getUserId(), scct);
-                    //Æô¶¯Óë¸Ã¿Í»§¶ËÍ¨ĞÅµÄÏß³Ì.
+                    //å¯åŠ¨ä¸è¯¥å®¢æˆ·ç«¯é€šä¿¡çš„çº¿ç¨‹.
                     scct.start();
 
-                    //²¢Í¨ÖªÆäËüÔÚÏßÓÃ»§.
+                    //å¹¶é€šçŸ¥å…¶å®ƒåœ¨çº¿ç”¨æˆ·.
                     scct.notifyOther(user.getUserId());
                 }
 

@@ -13,23 +13,20 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class SerConClientThread extends Thread {
     Socket socekt;
 
-    public SerConClientThread(Socket socekt)
-    {
+    public SerConClientThread(Socket socekt) {
         this.socekt=socekt;
     }
 
-    // TODO: 2018/12/22 iamÊÇÊ²Ã´
-    public void notifyOther(String iam)
-    {
+    // TODO: 2018/12/22 iamæ˜¯ä»€ä¹ˆ
+    public void notifyOther(String iam) {
         HashMap hm=ManageClientThread.hm;
         Iterator it=hm.keySet().iterator();
 
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             Message message=new Message();
             message.setCon(iam);
             message.setMesType(Message.MessageType.message_ret_onLineFriend);
-            //È¡³öÔÚÏßÈËµÄid
+            //å–å‡ºåœ¨çº¿äººçš„id
             String onLineUserId=it.next().toString();
             System.out.println(onLineUserId);
             try {
@@ -43,25 +40,21 @@ public class SerConClientThread extends Thread {
         }
     }
 
-    public void run()
-    {
-        while (true)
-        {
+    public void run() {
+        while (true) {
             try {
                 ObjectInputStream ois=new ObjectInputStream(socekt.getInputStream());
                 Message m=(Message)ois.readObject();
 
-                if(Message.MessageType.message_comm_mes.equals(m.getMesType()))                 //ÆÕÍ¨ĞÅÏ¢
-                {
-                    //Ò»»áÍê³É×ª·¢.
-                    //È¡µÃ½ÓÊÕÈËµÄÍ¨ĞÅÏß³Ì
+                if(Message.MessageType.message_comm_mes.equals(m.getMesType())) {               // æ™®é€šä¿¡æ¯
+                    //ä¸€ä¼šå®Œæˆè½¬å‘.
+                    //å–å¾—æ¥æ”¶äººçš„é€šä¿¡çº¿ç¨‹
                     SerConClientThread sc=ManageClientThread.getClientThread(m.getReceiver());
                     ObjectOutputStream oos=new ObjectOutputStream(sc.socekt.getOutputStream());
                     oos.writeObject(m);
-                }else if(Message.MessageType.message_get_onLineFriend.equals(m.getMesType()))   //»ñÈ¡ÔÚÏßºÃÓÑ
-                {
-                    System.out.println(m.getSender()+"ÇëÇóÔÚÏßºÃÓÑÁĞ±í");
-                    //°ÑÔÚ·şÎñÆ÷µÄºÃÓÑ¸ø¸Ã¿Í»§¶Ë·µ»Ø.
+                }else if(Message.MessageType.message_get_onLineFriend.equals(m.getMesType())) { // è·å–åœ¨çº¿å¥½å‹
+                    System.out.println(m.getSender()+"è¯·æ±‚åœ¨çº¿å¥½å‹åˆ—è¡¨");
+                    //æŠŠåœ¨æœåŠ¡å™¨çš„å¥½å‹ç»™è¯¥å®¢æˆ·ç«¯è¿”å›.
                     List<String> userid=ManageClientThread.getAllOnLineUserid();
 
                     ObjectMapper mapper=new ObjectMapper();

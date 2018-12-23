@@ -1,7 +1,6 @@
 package server;
 
-public class User
-{
+public class User {
     private String userId;
     private String passwd;
     public String getUserId() {

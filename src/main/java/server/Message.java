@@ -1,23 +1,22 @@
 package server;
 
-public class Message
-{
+public class Message {
     private MessageType mesType;
 
-    private String sender;      //·¢ËÍÕß
-    private String receiver;    //½ÓÊÕÕß
-    private String con;         //ĞÅÏ¢ÄÚÈİ
-    private String sendTime;    //·¢ËÍÊ±¼ä
+    private String sender;      // å‘é€è€…
+    private String receiver;    // æ¥æ”¶è€…
+    private String con;         // ä¿¡æ¯å†…å®¹
+    private String sendTime;    // å‘é€æ—¶é—´
 
     /**
-     * ÏûÏ¢ÀàĞÍ
+     * æ¶ˆæ¯ç±»å‹
      */
     enum MessageType{
-        message_login_succeed,            //
-        message_login_fail,
-        message_comm_mes,
-        message_get_onLineFriend,
-        message_ret_onLineFriend
+        message_login_succeed,              // ç™»å½•æˆåŠŸ
+        message_login_fail,                 // ç™»å½•å¤±è´¥
+        message_comm_mes,                   // æ™®é€šä¿¡æ¯
+        message_get_onLineFriend,           // è·å–åœ¨çº¿å¥½å‹
+        message_ret_onLineFriend            // è¿”å›åœ¨çº¿å¥½å‹
     }
 
     public MessageType getMesType() {
