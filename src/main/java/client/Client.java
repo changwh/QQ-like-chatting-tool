@@ -1,5 +1,7 @@
 package client;
 
+import com.sun.xml.internal.bind.v2.TODO;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -233,6 +235,7 @@ public class Client extends JFrame implements ActionListener {
 
                 doing_login();
 
+                // TODO: 2018/12/24 在 登录中 页面停留一段时间 
                 // 隐藏登录界面，打开主面板
                 dispose();
                 MainPanel mainPanel = new MainPanel(user.getText());
