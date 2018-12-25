@@ -1,11 +1,18 @@
 package client;
 
+import server.User;
+import util.HoverPressUtil;
+import util.Message;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 public class MainPanel extends JFrame {
 
@@ -26,10 +33,14 @@ public class MainPanel extends JFrame {
     private String slogan;
     private String sex;
 
+    FriendList friendList;
+
     private String ip;
     private String port;
 
-    public MainPanel(String user) throws IOException {
+    private static Socket socket;
+
+    public MainPanel(String userId) throws IOException, ClassNotFoundException {
         this.setLayout(null);
         this.setIconImage(ImageIO.read(new File("pic_src/title.png")));
         this.setUndecorated(true);
@@ -71,7 +82,7 @@ public class MainPanel extends JFrame {
 
         // 昵称
         nicknameLb = new JLabel();
-        nicknameLb.setText(user);
+        nicknameLb.setText(userId);
         nicknameLb.setBounds(80, 39, 80, 17);
         nicknameLb.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         nicknameLb.setForeground(Color.BLACK);
@@ -159,8 +170,25 @@ public class MainPanel extends JFrame {
 
         // 好友面板
         friends.setBorder(null);
-        friends.setBounds(2, 182, 278, 430);
-        friends.setViewportView(new JLabel("               好友面板尚未完成,敬请期待"));
+        friends.setBounds(2, 145, 278, 430);
+
+        User user = new User();
+        user.setUserId(userId);
+        // 请求在线好友，更新好友列表
+        if (sendLoginInfoToServer(user)) {
+            friendList = new FriendList(user.getUserId());
+            friends.add(friendList);
+            friends.setViewportView(friendList);
+
+            ManageFriendList.addFriendList(userId, friendList);
+
+            ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientConServerThread(user.getUserId()).getSocket().getOutputStream());
+
+            Message message = new Message();
+            message.setMesType(Message.MessageType.message_get_onLineFriend);
+            message.setSender(userId);
+            oos.writeObject(message);
+        }
         container.add(friends);
         friends.setVisible(true);
 
@@ -170,12 +198,6 @@ public class MainPanel extends JFrame {
         groups.setViewportView(new JLabel("               群会话面板尚未完成,敬请期待"));
 
         container.add(groups);
-
-        // 背景
-        Background background = new Background();
-        background.setImage(ImageIO.read(new File("pic_src/mainbg_modify.png")));
-        background.setBounds(0, 0, 284, 674);
-        container.add(background);
 
         // 关闭按钮
         btnClose = HoverPressUtil.getBtnButton("pic_src/Mainclose.png",
@@ -187,7 +209,7 @@ public class MainPanel extends JFrame {
                 MainPanel.this.dispose();
             }
         });
-        btnClose.setBounds(250, -2, 35, 20);
+        btnClose.setBounds(256, -2, 28, 20);
         container.add(btnClose);
 
         // 最小化按钮
@@ -199,10 +221,39 @@ public class MainPanel extends JFrame {
                 setExtendedState(JFrame.ICONIFIED);
             }
         });
-        btnMin.setBounds(222, -1, 28, 20);
+        btnMin.setBounds(228, -1, 28, 20);
         container.add(btnMin);
 
+        // 背景
+        Background background = new Background();
+        background.setImage(ImageIO.read(new File("pic_src/mainbg_modify.png")));
+        background.setBounds(0, 0, 284, 674);
+        container.add(background);
         container.repaint();
+    }
+
+    public boolean sendLoginInfoToServer(Object object) throws IOException, ClassNotFoundException {
+        boolean isSend = false;
+
+        socket = new Socket("127.0.0.1", 6666);
+        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+        oos.writeObject(object);
+        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+        Message message = (Message) ois.readObject();
+
+        // 验证登录
+        if (message.getMesType() == Message.MessageType.message_login_succeed) {
+            // 创建一个和服务器端保持通讯连接的线程
+            ClientConServerThread ccst = new ClientConServerThread(socket);
+            ccst.start();
+            ManageClientConServerThread.addClientConServerThread
+                    (((User) object).getUserId(), ccst);
+            isSend = true;
+        } else {
+            socket.close();
+        }
+
+        return isSend;
     }
 
 }

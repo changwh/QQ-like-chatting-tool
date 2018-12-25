@@ -1,6 +1,8 @@
-package server;
+package util;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message implements Serializable {
     private MessageType mesType;
 
     private String sender;      // 发送者
@@ -11,7 +13,7 @@ public class Message {
     /**
      * 消息类型
      */
-    enum MessageType {
+    public enum MessageType {
         message_login_succeed,              // 登录成功
         message_login_fail,                 // 登录失败
         message_comm_mes,                   // 普通信息

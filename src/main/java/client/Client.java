@@ -1,6 +1,6 @@
 package client;
 
-import com.sun.xml.internal.bind.v2.TODO;
+import util.HoverPressUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -8,10 +8,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.concurrent.TimeUnit;
 
 public class Client extends JFrame implements ActionListener {
 
@@ -102,6 +100,8 @@ public class Client extends JFrame implements ActionListener {
                         e1.printStackTrace();
                     } catch (InterruptedException e1) {
                         e1.printStackTrace();
+                    } catch (ClassNotFoundException e1) {
+                        e1.printStackTrace();
                     }
                 }
             }
@@ -189,6 +189,8 @@ public class Client extends JFrame implements ActionListener {
                 e1.printStackTrace();
             } catch (InterruptedException e1) {
                 e1.printStackTrace();
+            } catch (ClassNotFoundException e1) {
+                e1.printStackTrace();
             }
         } else if (e.getSource() == loginCancel) {
             dispose();
@@ -200,7 +202,7 @@ public class Client extends JFrame implements ActionListener {
         }
     }
 
-    public void do_login() throws IOException, InterruptedException {
+    public void do_login() throws IOException, InterruptedException, ClassNotFoundException {
         if (user.getText().length() != 0 && psw.getPassword().length != 0) {
             FileReader fr;
             fr = new FileReader("data/user_data.txt");
