@@ -1,2 +1,2 @@
 # QQ-like-chatting-tool
-refactor from https://github.com/xingwen93/java-QQ-
+modify from https://github.com/xingwen93/java-QQ-
