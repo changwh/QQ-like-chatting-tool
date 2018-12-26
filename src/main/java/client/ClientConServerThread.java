@@ -29,7 +29,8 @@ public class ClientConServerThread extends Thread {
                 Message message = (Message) ois.readObject();
 
                 if (message.getMesType() == Message.MessageType.message_comm_mes) {
-                    // TODO: 2018/12/25
+                    DialogPanel dialogPanel = ManageChat.getQqChat(message.getReceiver() + " " + message.getSender());
+                    dialogPanel.showMessage(message);
                 } else if (message.getMesType() == Message.MessageType.message_ret_onLineFriend) {
                     String receiver = message.getReceiver();
                     FriendList friendList = ManageFriendList.getFriendList(receiver);

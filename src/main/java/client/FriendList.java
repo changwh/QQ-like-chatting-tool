@@ -24,10 +24,11 @@ public class FriendList extends JPanel implements ActionListener, MouseListener 
         String context = message.getCon();
         ObjectMapper mapper = new ObjectMapper();
         List<String> onlineFriend = mapper.readValue(context, ArrayList.class);
+        Iterator iterator = onlineFriend.iterator();
 
-        Iterator it = onlineFriend.iterator();
-        for (int i = 0; it.hasNext(); i++) {
-            friendLb[i].setEnabled(true);
+        // TODO: 2018/12/26 修改好友ID与好友列表条目的映射关系
+        for (int i = 0; i < onlineFriend.size(); i++) {
+            friendLb[Integer.parseInt(iterator.next().toString()) - 10001].setEnabled(true);
         }
     }
 
@@ -44,6 +45,7 @@ public class FriendList extends JPanel implements ActionListener, MouseListener 
 
 
         // 好友
+        // TODO: 2018/12/26 userId与好友列表的映射 
         friendP = new JPanel(new GridLayout(50, 1, 4, 4));
         friendP.setBorder(BorderFactory.createEmptyBorder(2, 10, 6, 5));
 
@@ -109,7 +111,12 @@ public class FriendList extends JPanel implements ActionListener, MouseListener 
             //得到该好友的编号
             friendId = ((JLabel) e.getSource()).getText();
             //System.out.println("你希望和 "+friendNo+" 聊天");
-            DialogPanel dialog = new DialogPanel(this.ownerId, friendId);
+            DialogPanel dialog = null;
+            try {
+                dialog = new DialogPanel(this.ownerId, friendId);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
 
 
             //把聊天界面加入到管理类

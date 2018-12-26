@@ -174,6 +174,8 @@ public class MainPanel extends JFrame {
 
         User user = new User();
         user.setUserId(userId);
+        user.setPasswd(new String(Client.getPsw().getPassword()));
+
         // 请求在线好友，更新好友列表
         if (sendLoginInfoToServer(user)) {
             friendList = new FriendList(user.getUserId());

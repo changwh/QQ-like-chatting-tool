@@ -204,8 +204,7 @@ public class Client extends JFrame implements ActionListener {
 
     public void do_login() throws IOException, InterruptedException, ClassNotFoundException {
         if (user.getText().length() != 0 && psw.getPassword().length != 0) {
-            FileReader fr;
-            fr = new FileReader("data/user_data.txt");
+            FileReader fr = new FileReader("data/user_data.txt");
             BufferedReader br = new BufferedReader(fr);
 
             // 读取用户信息表
@@ -298,6 +297,10 @@ public class Client extends JFrame implements ActionListener {
 
     public static void main(String args[]) throws IOException {
         new Client().launch();
+    }
+
+    public static JPasswordField getPsw() {
+        return psw;
     }
 
 }

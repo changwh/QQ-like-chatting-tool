@@ -19,15 +19,24 @@ public class SerConClientThread extends Thread {
     }
 
     /**
+     * 提醒其他客户端，你已经上线
+     *
      * @param iam your userId
      */
-    public void notifyOther(String iam) {
+    public void notifyOther(String iam) throws IOException {
         HashMap hm = ManageClientThread.hm;
         Iterator it = hm.keySet().iterator();
 
         while (it.hasNext()) {
             Message message = new Message();
-            message.setCon(iam);
+
+            // TODO: 2018/12/26 当调用函数将arrayList转json时出现bug，手动将iam转换为jsonString后bug消失，有时间查看具体原因
+//            List<String> whoIAm=new ArrayList<String>();
+//            whoIAm.add(iam);
+//            ObjectMapper mapper = new ObjectMapper();
+//            message.setCon(mapper.writeValueAsString(whoIAm));
+            message.setCon("[" + iam + "]");
+
             message.setMesType(Message.MessageType.message_ret_onLineFriend);
             //取出在线人的id
             String onLineUserId = it.next().toString();
@@ -37,7 +46,6 @@ public class SerConClientThread extends Thread {
                 oos.writeObject(message);
             } catch (Exception e) {
                 e.printStackTrace();
-                // TODO: handle exception
             }
         }
     }
