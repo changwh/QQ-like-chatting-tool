@@ -18,7 +18,8 @@ public class Message implements Serializable {
         message_login_fail,                 // 登录失败
         message_comm_mes,                   // 普通信息
         message_get_onLineFriend,           // 获取在线好友
-        message_ret_onLineFriend            // 返回在线好友
+        message_ret_onLineFriend,           // 返回在线好友
+        message_file                        // 文件
     }
 
     public MessageType getMesType() {

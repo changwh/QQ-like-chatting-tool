@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class ClientConServerThread extends Thread {
 
-    private Socket socket;
+    private static Socket socket;
 
     public Socket getSocket() {
         return socket;

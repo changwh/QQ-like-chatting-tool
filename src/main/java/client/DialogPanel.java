@@ -15,7 +15,7 @@ public class DialogPanel extends JFrame implements ActionListener {
 
     private static String ownerId, friendId, friendNickname, friendSlogan;
 
-    private JButton min, max, close, send, close2;
+    private JButton min, max, close, send, close2, fileTrans;
     private JLabel friendHeadimgLb, friendNicknameLb, friendSloganLb;
     private JTextArea recvAndSentMsg, editMsg;
     private JScrollPane recvAndSentMsgSP, editMsgSP;
@@ -70,6 +70,12 @@ public class DialogPanel extends JFrame implements ActionListener {
         friendSloganLb.setBounds(60, 33, 300, 20);
         this.add(friendSloganLb);
 
+        // 文件传输按钮
+        fileTrans = HoverPressUtil.getBtnButton("pic_src/dialog/wjcs.png", "pic_src/dialog/wjcs_hover.png", "pic_src/dialog/wjcs.png");
+        fileTrans.setBounds(5, 56, 34, 34);
+        fileTrans.addActionListener(this);
+        this.add(fileTrans);
+
         // 对话框
         recvAndSentMsg = new JTextArea();
         recvAndSentMsg.setBorder(null);
@@ -78,7 +84,7 @@ public class DialogPanel extends JFrame implements ActionListener {
         recvAndSentMsgSP = new JScrollPane(recvAndSentMsg, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         recvAndSentMsgP = new JPanel();
         recvAndSentMsgP.setLayout(new BorderLayout());
-        recvAndSentMsgP.setBounds(5, 92, 395, 285);
+        recvAndSentMsgP.setBounds(5, 92, 545, 285);
         recvAndSentMsgP.add(recvAndSentMsgSP);
         this.add(recvAndSentMsgP);
 
@@ -102,7 +108,7 @@ public class DialogPanel extends JFrame implements ActionListener {
         editMsgSP = new JScrollPane(editMsg, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         editMsgP = new JPanel();
         editMsgP.setLayout(new BorderLayout());
-        editMsgP.setBounds(5, 410, 395, 90);
+        editMsgP.setBounds(5, 410, 545, 90);
         editMsgP.add(editMsgSP);
         this.add(editMsgP);
 
@@ -154,7 +160,7 @@ public class DialogPanel extends JFrame implements ActionListener {
                 "pic_src/dialog/guanbi.png",
                 "pic_src/dialog/guanbi_hover.png",
                 "pic_src/dialog/guanbi_p.png");
-        close2.setBounds(230, 503, 71, 24);
+        close2.setBounds(380, 503, 71, 24);
         close2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -168,7 +174,7 @@ public class DialogPanel extends JFrame implements ActionListener {
                 "pic_src/dialog/fasong.png",
                 "pic_src/dialog/fasong_hover.png",
                 "pic_src/dialog/fasong_p.png");
-        send.setBounds(310, 503, 83, 24);
+        send.setBounds(460, 503, 83, 24);
         send.addActionListener(this);
         this.add(send);
 
@@ -185,8 +191,8 @@ public class DialogPanel extends JFrame implements ActionListener {
         // 构造一个消息
         Message message = new Message();
         message.setMesType(Message.MessageType.message_comm_mes);
-        message.setSender(dialogPanel.ownerId);
-        message.setReceiver(dialogPanel.friendId);
+        message.setSender(dialogPanel.getOwnerId());
+        message.setReceiver(dialogPanel.getFriendId());
         message.setCon(dialogPanel.editMsg.getText());
 
         // 获取日期、时间
@@ -206,7 +212,7 @@ public class DialogPanel extends JFrame implements ActionListener {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(
                     ManageClientConServerThread.getClientConServerThread(
-                            dialogPanel.ownerId).getSocket().getOutputStream());
+                            dialogPanel.getOwnerId()).getSocket().getOutputStream());
             oos.writeObject(message);
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -237,6 +243,16 @@ public class DialogPanel extends JFrame implements ActionListener {
         fos.close();
     }
 
+    public void sendFile(DialogPanel dialogPanel) {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        chooser.showDialog(new JLabel(), "选择文件");
+        File file = chooser.getSelectedFile();
+//        System.out.println(file.getPath());
+
+        // TODO: 2018/12/27 发送文件
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == send) {
@@ -245,6 +261,9 @@ public class DialogPanel extends JFrame implements ActionListener {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+        }
+        if (e.getSource() == fileTrans) {
+            sendFile(DialogPanel.this);
         }
     }
 
