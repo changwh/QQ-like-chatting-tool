@@ -13,7 +13,7 @@ import java.util.StringTokenizer;
 
 public class Client extends JFrame implements ActionListener {
 
-    private JButton login, setting, close, min, loginCancel;
+    private JButton login, setting, close, min, loginCancel, register;
     private JLabel headimg, headimgbg, loginLabel, autoLogin, rememberMe, loginCancelLabel, linkTipPanel;
     private static JTextField user;
     private static JPasswordField psw;
@@ -145,6 +145,15 @@ public class Client extends JFrame implements ActionListener {
         login.setBounds(100, 288, 237, 48);
         container.add(login);
 
+        // 注册按钮
+        register = HoverPressUtil.getBtnButton(
+                "pic_src/zhuce_normal.png",
+                "pic_src/zhuce_hover.png",
+                "pic_src/zhuce_press.png");
+        register.addActionListener(this);
+        register.setBounds(330, 200, 51, 16);
+        container.add(register);
+
         // 关闭按钮
         close = HoverPressUtil.getBtnClose();
         close.addActionListener(new ActionListener() {
@@ -199,6 +208,12 @@ public class Client extends JFrame implements ActionListener {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+        } else if (e.getSource() == register) {
+            try {
+                new RegisterPanel().launch();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -208,14 +223,12 @@ public class Client extends JFrame implements ActionListener {
             BufferedReader br = new BufferedReader(fr);
 
             // 读取用户信息表
-            int userNum = 0;
             String str;
             StringTokenizer st;
             Map<String, String> userData = new HashMap<String, String>();
             while ((str = br.readLine()) != null) {
                 st = new StringTokenizer(str, ",");
                 userData.put(st.nextToken(), st.nextToken());
-                userNum++;
             }
 
 //            System.out.println(user.getText());
