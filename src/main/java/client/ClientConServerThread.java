@@ -2,8 +2,7 @@ package client;
 
 import util.Message;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class ClientConServerThread extends Thread {
@@ -37,6 +36,24 @@ public class ClientConServerThread extends Thread {
                     if (friendList != null) {
                         friendList.updateList(message);
                     }
+                    // TODO: 2018/12/28 接受文件
+//                } else if (message.getMesType() == Message.MessageType.message_file) {
+//                    DataInputStream dis = new DataInputStream(socket.getInputStream());
+//                    String fileName = dis.readUTF();
+//                    long fileLength = dis.readLong();
+//                    File directory = new File("D:\\FTCache");
+//                    if (!directory.exists()) {
+//                        directory.mkdir();
+//                    }
+//                    File file = new File(directory.getAbsolutePath() + File.separatorChar + fileName);
+//                    FileOutputStream fos = new FileOutputStream(file);
+//
+//                    byte[] bytes = new byte[1024];
+//                    int length = 0;
+//                    while ((length = dis.read(bytes, 0, bytes.length)) != -1) {
+//                        fos.write(bytes, 0, length);
+//                        fos.flush();
+//                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();

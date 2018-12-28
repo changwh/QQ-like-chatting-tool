@@ -257,7 +257,7 @@ public class DialogPanel extends JFrame implements ActionListener {
         fos.close();
     }
 
-    public void sendFile(DialogPanel dialogPanel) {
+    public void sendFile(DialogPanel dialogPanel) throws IOException {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         chooser.showDialog(new JLabel(), "选择文件");
@@ -265,6 +265,23 @@ public class DialogPanel extends JFrame implements ActionListener {
 //        System.out.println(file.getPath());
 
         // TODO: 2018/12/27 发送文件
+//        FileInputStream fis = new FileInputStream(file);
+//        DataOutputStream dos = new DataOutputStream(ManageClientConServerThread.getClientConServerThread(
+//                dialogPanel.getOwnerId()).getSocket().getOutputStream());
+//        dos.writeUTF(file.getName());
+//        dos.flush();
+//        dos.writeLong(file.length());
+//        dos.flush();
+//
+//        byte bytes[] = new byte[1024];
+//        int length = 0;
+//        while ((length = fis.read(bytes, 0, bytes.length)) != -1) {
+//            dos.write(bytes, 0, length);
+//            dos.flush();
+//        }
+
+        editMsg.append(dialogPanel.getOwnerId() + "向" + dialogPanel.getFriendId() + "发送了" + file.getPath() + "\\" + file.getName());
+        sendMessage(dialogPanel);
     }
 
     @Override
@@ -277,7 +294,11 @@ public class DialogPanel extends JFrame implements ActionListener {
             }
         }
         if (e.getSource() == fileTrans) {
-            sendFile(DialogPanel.this);
+            try {
+                sendFile(DialogPanel.this);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
