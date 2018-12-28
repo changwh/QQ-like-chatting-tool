@@ -15,7 +15,7 @@ public class DialogPanel extends JFrame implements ActionListener {
 
     private static String ownerId, friendId, friendNickname, friendSlogan;
 
-    private JButton min, max, close, send, close2, fileTrans;
+    private JButton min, max, close, send, close2, fileTrans, messageRecord;
     private JLabel friendHeadimgLb, friendNicknameLb, friendSloganLb;
     private JTextArea recvAndSentMsg, editMsg;
     private JScrollPane recvAndSentMsgSP, editMsgSP;
@@ -112,6 +112,20 @@ public class DialogPanel extends JFrame implements ActionListener {
         editMsgP.add(editMsgSP);
         this.add(editMsgP);
 
+        // 聊天记录
+        messageRecord = HoverPressUtil.getBtnButton("pic_src/dialog/xiaoxi.png", "pic_src/dialog/xiaoxi_hover.png", "pic_src/dialog/xiaoxi.png");
+        messageRecord.setBounds(450, 380, 103, 28);
+        messageRecord.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new MessageRecord(DialogPanel.this);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+        this.add(messageRecord);
 
         // 最小化按钮
         min = HoverPressUtil.getBtnMin();

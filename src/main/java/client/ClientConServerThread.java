@@ -40,6 +40,7 @@ public class ClientConServerThread extends Thread {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                return;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

@@ -81,6 +81,7 @@ public class SerConClientThread extends Thread {
 
             } catch (IOException e) {
                 e.printStackTrace();
+                return;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

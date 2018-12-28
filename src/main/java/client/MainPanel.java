@@ -208,6 +208,11 @@ public class MainPanel extends JFrame {
         btnClose.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    socket.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
                 MainPanel.this.dispose();
             }
         });
