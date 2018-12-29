@@ -280,7 +280,7 @@ public class DialogPanel extends JFrame implements ActionListener {
 //            dos.flush();
 //        }
 
-        editMsg.append(dialogPanel.getOwnerId() + "向" + dialogPanel.getFriendId() + "发送了" + file.getPath() + "\\" + file.getName());
+        editMsg.append(dialogPanel.getOwnerId() + "向" + dialogPanel.getFriendId() + "发送了" + file.getPath());
         sendMessage(dialogPanel);
     }
 
